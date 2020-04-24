@@ -1,0 +1,109 @@
+﻿@model Project_1.ViewModels.CourseSearchViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-controller="Courses" asp-action="Index" method="get">
+    <p>
+
+        Title: <input type="text" asp-for="title" />
+        Programme: <input type="text" asp-for="programme" />
+        Semmester: <input type="number" asp-for="semmester" />
+       
+        <input type="submit" value="Filter" />
+
+    </p>
+</form>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Courses[0].Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Courses[0].Credits)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Courses[0].Semester)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Courses[0].Programme)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Courses[0].EducationLevel)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Courses[0].FirstTeacher)
+                    @*@if (Model.FirstTeacherId != null)
+                        {
+                            <a asp-controller="Directors" asp-action="Details" asp-route-id="@Model.">@Html.DisplayFor(model => model.FirstTeacher.FullName)</a>
+                        }*@
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Courses[0].SecondTeacher)
+                </th>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Courses[0].Students)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Courses)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Credits)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Semester)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Programme)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EducationLevel)
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.FirstTeacher.FirstName)*@
+                        @if (item.FirstTeacher != null)
+                        {
+                            <a asp-controller="Teachers" asp-action="Details" asp-route-id="@item.FirstTeacherId"> @Html.DisplayFor(modelItem => item.FirstTeacher.FullName)</a>
+                        }
+
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.SecondTeacher.FirstName)*@
+                        @if (item.SecondTeacher != null)
+                        {
+                            <a asp-controller="Teachers" asp-action="Details" asp-route-id="@item.SecondTeacherId"> @Html.DisplayFor(modelItem => item.SecondTeacher.FullName)</a>
+                        }
+                    </td>
+                    <td>
+                        @foreach (var student in item.Students)
+                        {
+                            <a asp-controller="Students" asp-action="Details" asp-route-id="@student.StudentId"> @student.Student.FullName </a> <br />
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
